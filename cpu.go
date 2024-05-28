@@ -5,13 +5,15 @@
 
 package m1cpu
 
+import "C"
+
 // #cgo LDFLAGS: -framework CoreFoundation -framework IOKit
 // #include <AvailabilityMacros.h>
 // #include <CoreFoundation/CoreFoundation.h>
 // #include <IOKit/IOKitLib.h>
 // #include <sys/sysctl.h>
 //
-// #if !defined(MAC_OS_VERSION_12_0) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0
+// #if !TARGET_OS_IPHONE && !defined(MAC_OS_VERSION_12_0) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0
 // #define kIOMainPortDefault kIOMasterPortDefault
 // #endif
 //
@@ -70,7 +72,9 @@ package m1cpu
 //
 //   CFMutableDictionaryRef matching = IOServiceMatching("AppleARMIODevice");
 //   io_iterator_t  iter;
-//   IOServiceGetMatchingServices(kIOMainPortDefault, matching, &iter);
+/*#if !TARGET_OS_IPHONE
+   IOServiceGetMatchingServices(kIOMainPortDefault, matching, &iter);
+#endif*/
 //
 //   const size_t bufsize = 512;
 //   io_object_t obj;
