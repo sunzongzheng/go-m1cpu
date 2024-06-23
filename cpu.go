@@ -7,10 +7,12 @@ package m1cpu
 
 import "C"
 
-// #cgo LDFLAGS: -framework CoreFoundation -framework IOKit
+// #cgo LDFLAGS: -framework CoreFoundation
 // #include <AvailabilityMacros.h>
 // #include <CoreFoundation/CoreFoundation.h>
+// #if !TARGET_OS_TV
 // #include <IOKit/IOKitLib.h>
+// #endif
 // #include <sys/sysctl.h>
 //
 // #if !TARGET_OS_IPHONE && !defined(MAC_OS_VERSION_12_0) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0
@@ -70,6 +72,7 @@ import "C"
 //   global_eCoreL2CacheSize = sysctl_int("hw.perflevel1.l2cachesize");
 //   sysctl_string("machdep.cpu.brand_string", global_brand);
 //
+// #if !TARGET_OS_TV
 //   CFMutableDictionaryRef matching = IOServiceMatching("AppleARMIODevice");
 //   io_iterator_t  iter;
 /*#if !TARGET_OS_IPHONE
@@ -96,6 +99,7 @@ import "C"
 //       return;
 //     }
 //   }
+// #endif
 // }
 //
 // UInt64 eCoreHz() {
